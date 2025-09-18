@@ -45,7 +45,6 @@ async def transcribe_chunk(
         if prompt and prompt.strip():
             kwargs["prompt"] = prompt.strip()
 
-        # Open temp file for reading
         transcription = client.audio.transcriptions.create(**kwargs)
 
         return JSONResponse({
@@ -98,7 +97,6 @@ async def speak_text(text: str = Form(...)):
             model="gpt-4o-mini-tts",
             voice="alloy",
             input=text
-            #language=language
         )
 
         audio_bytes = tts_response.read()
