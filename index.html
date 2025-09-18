@@ -176,7 +176,7 @@
         form.append("text", text);
         form.append("language", targetLang);
 
-        const res = await fetch("http://127.0.0.1:8000/translate", {
+        const res = await fetch("https://voice-ai-app-skys.onrender.com/translate", {
           method: "POST",
           body: form,
         });
@@ -190,7 +190,7 @@
         const form = new FormData();
         form.append("text", text);
 
-        const res = await fetch("http://127.0.0.1:8000/speak", {
+        const res = await fetch("https://voice-ai-app-skys.onrender.com/speak", {
           method: "POST",
           body: form,
         });
@@ -226,7 +226,7 @@
         while (chunkQueue.length > 0) {
           const form = chunkQueue.shift();
           try {
-            const res = await fetch("http://127.0.0.1:8000/transcribe-chunk", {
+            const res = await fetch("https://voice-ai-app-skys.onrender.com/transcribe-chunk", {
               method: "POST",
               body: form,
             });
