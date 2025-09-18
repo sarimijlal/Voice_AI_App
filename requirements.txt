@@ -1,19 +1,6 @@
-annotated-types @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/annotated-types_1729043709318/work
-anyio @ file:///C:/b/abs_5c8w79vk0u/croot/anyio_1745334672105/work
-certifi @ file:///C:/b/abs_2bz30lzohz/croot/certifi_1754570654565/work/certifi
-colorama @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/colorama_1729036581634/work
-distro @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/distro_1729059153117/work
-h11 @ file:///C:/b/abs_224rqu7kel/croot/h11_1748442031959/work
-httpcore @ file:///C:/b/abs_25m7_xthp6/croot/httpcore_1748526065845/work
-httpx @ file:///C:/b/abs_9fclaf1b46/croot/httpx_1746747856672/work
-idna @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/idna_1729038997316/work
-jiter @ file:///C:/Users/dev-admin/buildout/perseverance-python-buildout/croot/jiter_1731729464893/work
-openai @ file:///C:/b/abs_f3ev2tn7ms/croot/openai_1746690315854/work
-pydantic @ file:///C:/b/abs_d1rp6fqxgk/croot/pydantic_1750768285689/work
-pydantic_core @ file:///C:/b/abs_d0xs0z3erk/croot/pydantic-core_1750754747982/work
-setuptools==78.1.1
-sniffio @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/sniffio_1729040228331/work
-tqdm @ file:///C:/b/abs_0eh9b6xugj/croot/tqdm_1738945553987/work
-typing-inspection @ file:///C:/b/abs_261c5jt6kx/croot/typing-inspection_1746023491500/work
-typing_extensions @ file:///C:/b/abs_ecq8gc0vbm/croot/typing_extensions_1756281142218/work
-wheel==0.45.1
+fastapi
+uvicorn[standard]
+python-multipart
+openai
+python-dotenv
+
