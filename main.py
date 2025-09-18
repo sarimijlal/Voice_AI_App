@@ -1,5 +1,5 @@
 from fastapi import FastAPI, UploadFile, Form
-from fastapi.responses import JSONResponse, StreamingResponse
+from fastapi.responses import JSONResponse, StreamingResponse, FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 import io
@@ -11,6 +11,10 @@ from core.config import OPEN_API_KEY
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory=".", html=True), name= "static")
+
+@app.get("/")
+def root():
+    return FileResponse("index.html")
 
 # Allow local dev + Vercel deployment
 app.add_middleware(
