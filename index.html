@@ -3,126 +3,153 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Live Transcription and Translation</title>
+    <title>Live Transcribe & Translate</title>
     <style>
-      /* Simple mobile-first layout */
       body {
-        font-family: system-ui, -apple-system, Roboto, "Helvetica Neue", Arial;
+        font-family: Arial, sans-serif;
+        background: #f7f7f7;
         margin: 0;
-        padding: 0.75rem;
-        background: #f7fafc;
-        color: #111827;
-      }
-      header {
+        padding: 0;
         display: flex;
-        gap: 0.5rem;
+        flex-direction: column;
         align-items: center;
-        justify-content: space-between;
+        min-height: 100vh;
       }
-      button {
-        padding: 0.6rem 1rem;
-        border-radius: 8px;
+
+      h1 {
+        text-align: center;
+        margin: 20px 0 10px;
+      }
+
+      #toggleBtn {
+        padding: 10px 20px;
+        margin: 10px 0 20px;
         border: none;
+        border-radius: 6px;
         background: #111827;
-        color: #fff;
-        font-weight: 600;
+        color: white;
+        cursor: pointer;
+        font-size: 16px;
       }
-      .row {
+      #toggleBtn:hover {
+        background: #0056b3;
+      }
+
+      .container {
         display: flex;
-        gap: 0.5rem;
-        margin-top: 0.75rem;
+        justify-content: center;
+        gap: 40px;
+        width: 90%;
+        max-width: 1000px;
       }
+
       .panel {
         flex: 1;
-        background: #fff;
-        border-radius: 12px;
-        padding: 0.75rem;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-        min-height: 120px;
-        overflow: auto;
+        display: flex;
+        flex-direction: column;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        padding: 15px;
       }
-      .panel h3 {
-        margin: 0 0 0.5rem 0;
-        font-size: 0.95rem;
+
+      .panel select {
+        margin-bottom: 10px;
+        padding: 6px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        font-size: 14px;
       }
-      .status {
-        font-size: 0.85rem;
-        color: #6b7280;
-        margin-top: 0.5rem;
+
+      .panel h2 {
+        text-align: center;
+        margin: 10px 0;
       }
-      .small {
-        font-size: 0.85rem;
-        color: #6b7280;
+
+      .content-box {
+        flex: 1;
+        overflow-y: auto;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 10px;
+        background: #fafafa;
+        font-size: 14px;
       }
-      @media (min-width: 800px) {
-        .row {
-          flex-direction: row;
-        }
+
+      #controls {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 20px 0;
       }
-      @media (max-width: 799px) {
-        .row {
-          flex-direction: column;
-        }
+
+      #playTTSBtn {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 6px;
+        background: #28a745;
+        color: white;
+        cursor: pointer;
+        margin-bottom: 10px;
+      }
+      #playTTSBtn:hover {
+        background: #1e7e34;
+      }
+
+      #ttsAudio {
+        width: 300px;
+      }
+
+      #status {
+        text-align: center;
+        margin: 15px 0;
+        font-style: italic;
+        color: #555;
       }
     </style>
   </head>
   <body>
-    <header>
-      <h2>Live Transcription and Translation</h2>
-      <div>
-        <label class="small"
-          >Speaker language:
-          <select id="speakerLangSelect">
-            <option value="">Auto detect</option>
-            <option value="en">English</option>
-            <option value="ur">Urdu</option>
-          </select>
-        </label>
+    <h1>Live Transcribe & Translate</h1>
+    <button id="toggleBtn">Start</button>
 
-        <label class="small"
-          >Listener language:
-          <select id="listenerLangSelect">
-            <option value="en">English</option>
-            <option value="ur">Urdu</option>
-            <option value="fr">French</option>
-            <!-- Add more as needed -->
-          </select>
-        </label>
-      </div>
-    </header>
-
-    <div style="margin-top: 0.75rem">
-      <button id="toggleBtn">Start</button>
-      <span class="status" id="status">Idle</span>
-    </div>
-
-    <div class="row">
+    <div class="container">
+      <!-- Transcription Panel -->
       <div class="panel">
-        <h3>Original transcript (live)</h3>
-        <div id="original" style="opacity: 0.5">
-          Transcription will appear here
-        </div>
+        <select id="speakerLangSelect">
+          <option value="">Auto-detect</option>
+          <option value="en">English</option>
+          <option value="ur">Urdu</option>
+          <option value="es">Spanish</option>
+          <!-- add more if needed-->
+        </select>
+        <h2>Transcription</h2>
+        <div id="original" class="content-box"></div>
       </div>
 
+      <!-- Translation Panel -->
       <div class="panel">
-        <h3>Translated transcript</h3>
-        <div id="translated" style="opacity: 0.5">
-          Translation will appear here shortly.
+        <select id="listenerLangSelect">
+          <option value="en">English</option>
+          <option value="ur">Urdu</option>
+          <option value="es">Spanish</option>
+          <!-- add more -->
+        </select>
+        <h2>Translation</h2>
+        <div id="translated" class="content-box">
+          Translation will appear here
         </div>
       </div>
     </div>
 
-    <div class="panel">
-      <h3>Audio Playback</h3>
-      <button id="playTTSBtn" disabled>Play Speech</button>
-      <audio
-        id="ttsAudio"
-        controls
-        style="width: 100%; margin-top: top 0.5em"
-      ></audio>
+    <div id="controls">
+      <button id="playTTSBtn" disabled>🔊 Play Translation</button>
+      <audio id="ttsAudio" controls></audio>
     </div>
+
+    <div id="status"></div>
 
     <script>
+      
       const toggleBtn = document.getElementById("toggleBtn");
       const statusEl = document.getElementById("status");
       const originalEl = document.getElementById("original");
@@ -131,12 +158,18 @@
       const listenerLangSelect = document.getElementById("listenerLangSelect");
       const playTTSBtn = document.getElementById("playTTSBtn");
       const ttsAudio = document.getElementById("ttsAudio");
+      const CHUNK_MS = 5000;
 
       let audioStream = null;
       let mediaRecorder = null;
-      let chunkIndex = 0;
-      let running = false;
-      let fullTranscript = "";
+      let chunkCounter = 0;
+
+      let running = false; 
+      let fullTranscript = ""; 
+      let chunkQueue = []; 
+
+      let processingQueue = false; 
+      let drainResolver = null; 
 
       async function translateTranscript(text, targetLang) {
         const form = new FormData();
@@ -150,13 +183,12 @@
 
         if (!res.ok) throw new Error(await res.text());
         const j = await res.json();
-        return j.translated; // backend will return {translated: "..."}
+        return j.translated;
       }
 
-      async function fetchTTS(text, language) {
+      async function fetchTTS(text) {
         const form = new FormData();
         form.append("text", text);
-        // form.append("language", language);
 
         const res = await fetch("http://127.0.0.1:8000/speak", {
           method: "POST",
@@ -164,31 +196,73 @@
         });
 
         if (!res.ok) throw new Error(await res.text());
-
         const blob = await res.blob();
         return URL.createObjectURL(blob);
       }
 
-      // Enable TTS button after translation
       async function handleTTS() {
-        if (!fullTranscript.trim()) return;
-
+        const text = (translatedEl.textContent || "").trim();
+        if (!text) return;
         statusEl.textContent = "Generating speech...";
         playTTSBtn.disabled = true;
-
         try {
-          const ttsUrl = await fetchTTS(
-            translatedEl.textContent,
-            listenerLangSelect.value
-          );
-          ttsAudio.src = ttsUrl;
-          ttsAudio.play();
-          playTTSBtn.disabled = false;
+          const url = await fetchTTS(text);
+          ttsAudio.src = url;
+          await ttsAudio.play().catch(() => {
+          });
           statusEl.textContent = "Speech ready";
         } catch (err) {
-          console.error(err);
+          console.error("TTS error:", err);
           statusEl.textContent = "TTS error";
+        } finally {
           playTTSBtn.disabled = false;
+        }
+      }
+
+      async function processChunkQueueWorker() {
+        if (processingQueue) return; // already running
+        processingQueue = true;
+
+        while (chunkQueue.length > 0) {
+          const form = chunkQueue.shift();
+          try {
+            const res = await fetch("http://127.0.0.1:8000/transcribe-chunk", {
+              method: "POST",
+              body: form,
+            });
+
+            if (!res.ok) {
+              const text = await res.text();
+              console.error("Transcribe chunk server error:", text);
+              statusEl.textContent = "Server error (chunk)";
+              continue;
+            }
+
+            const j = await res.json();
+            const chunkText = (j.text || "").trim();
+
+            if (chunkText) {
+              const p = document.createElement("p");
+              p.textContent = chunkText;
+              originalEl.appendChild(p);
+              originalEl.scrollTop = originalEl.scrollHeight;
+
+              fullTranscript += (fullTranscript ? " " : "") + chunkText;
+            }
+
+            statusEl.textContent = `Listening — model: ${j.model || "unknown"}`;
+          } catch (err) {
+            console.error("Chunk upload error:", err);
+            statusEl.textContent = "Network error (chunk)";
+          }
+        }
+
+        processingQueue = false;
+
+        if (typeof drainResolver === "function") {
+          const r = drainResolver;
+          drainResolver = null;
+          r();
         }
       }
 
@@ -203,90 +277,126 @@
         }
 
         originalEl.innerHTML = "";
-        // translatedEl.textContent = "Translation will appear here in the second half.";
-        // translatedEl.style.opacity = "0.5";
+        translatedEl.textContent = "Translation will appear here shortly.";
+        translatedEl.style.opacity = "0.5";
+        playTTSBtn.disabled = true;
 
-        chunkIndex = 0;
+        chunkCounter = 0;
         fullTranscript = "";
+        chunkQueue = [];
+        drainResolver = null;
+        processingQueue = false;
         running = true;
 
-        recordNextChunk(); // start the first chunk
+        statusEl.textContent = "Recording...";
+        recordNextChunk();
       }
 
       function recordNextChunk() {
         if (!running) return;
 
-        mediaRecorder = new MediaRecorder(audioStream, {
-          mimeType: "audio/webm;codecs=opus",
-        });
+        try {
+          mediaRecorder = new MediaRecorder(audioStream, {
+            mimeType: "audio/webm;codecs=opus",
+          });
+        } catch (err) {
+          console.error("MediaRecorder creation failed:", err);
+          statusEl.textContent = "Recorder error";
+          running = false;
+          return;
+        }
 
-        mediaRecorder.addEventListener("dataavailable", async (ev) => {
-          if (!ev.data || ev.data.size < 200) return;
+        mediaRecorder.addEventListener("dataavailable", (ev) => {
+          if (!ev.data || ev.data.size < 200) return; // ignore tiny blobs
 
           const blob = new Blob([ev.data], { type: "audio/webm;codecs=opus" });
-          const file = new File([blob], `chunk-${chunkIndex++}.webm`, {
+          const file = new File([blob], `chunk-${chunkCounter++}.webm`, {
             type: "audio/webm;codecs=opus",
           });
 
           const form = new FormData();
           form.append("audio", file);
-          const speakerLanguage = speakerLangSelect.value;
+
+          const speakerLanguage =
+            speakerLangSelect && speakerLangSelect.value
+              ? speakerLangSelect.value
+              : "";
           if (speakerLanguage) form.append("language", speakerLanguage);
 
-          // send to API
-          statusEl.textContent = "Sending chunk...";
-          try {
-            const res = await fetch("http://127.0.0.1:8000/transcribe-chunk", {
-              method: "POST",
-              body: form,
-            });
-            if (!res.ok) {
-              statusEl.textContent = "Server error";
-              return;
-            }
-            const j = await res.json();
+          chunkQueue.push(form);
 
-            const p = document.createElement("p");
-            p.textContent = j.text;
-            originalEl.appendChild(p);
-            originalEl.scrollTop = originalEl.scrollHeight;
-            fullTranscript += j.text + " ";
-
-            statusEl.textContent = `Listening — last model: ${j.model}`;
-          } catch (err) {
-            console.error(err);
-            statusEl.textContent = "Network error";
-          }
+          processChunkQueueWorker().catch((err) => {
+            console.error("processChunkQueueWorker error:", err);
+          });
         });
 
         mediaRecorder.addEventListener("stop", () => {
-          // after this chunk, record the next one
+          mediaRecorder = null;
           if (running) {
-            recordNextChunk();
+            setTimeout(recordNextChunk, 50);
+          } else {
           }
         });
 
-        mediaRecorder.start();
+        try {
+          mediaRecorder.start();
+        } catch (err) {
+          console.error("mediaRecorder.start() failed:", err);
+          statusEl.textContent = "Recorder error";
+          running = false;
+          return;
+        }
+
         setTimeout(() => {
           if (mediaRecorder && mediaRecorder.state === "recording") {
-            mediaRecorder.stop(); // finalize this chunk
+            try {
+              mediaRecorder.stop();
+            } catch (e) {
+            }
           }
-        }, 5000); // 3 seconds per chunk
+        }, CHUNK_MS);
       }
 
       async function stopRecording() {
+        running = false;
+
         if (mediaRecorder && mediaRecorder.state === "recording") {
-          mediaRecorder.stop();
+          try {
+            mediaRecorder.stop();
+          } catch (e) {
+          }
         }
+
+        if (chunkQueue.length > 0 || processingQueue) {
+          await new Promise((resolve) => {
+            if (!processingQueue && chunkQueue.length === 0) {
+              resolve();
+              return;
+            }
+            drainResolver = resolve;
+          });
+        }
+
         if (audioStream) {
           audioStream.getTracks().forEach((t) => t.stop());
         }
         mediaRecorder = null;
         audioStream = null;
-        running = false;
 
-        if (fullTranscript.trim()) {
-          const listenerLang = listenerLangSelect.value || "English";
+        if (!fullTranscript.trim()) {
+          statusEl.textContent = "No transcript to translate";
+          translatedEl.textContent = "";
+          translatedEl.style.opacity = "0.5";
+          playTTSBtn.disabled = true;
+          return;
+        }
+
+        statusEl.textContent = "Preparing to translate";
+        setTimeout(async () => {
+          const listenerLang =
+            listenerLangSelect && listenerLangSelect.value
+              ? listenerLangSelect.value
+              : "en";
           statusEl.textContent = "Translating...";
           translatedEl.textContent = "Translating...";
           translatedEl.style.opacity = "0.5";
@@ -294,7 +404,6 @@
           try {
             const translatedText = await translateTranscript(
               fullTranscript,
-              // langSelect.value
               listenerLang
             );
             translatedEl.textContent = translatedText;
@@ -302,21 +411,23 @@
             statusEl.textContent = "Translation done";
             playTTSBtn.disabled = false;
           } catch (err) {
-            console.error(err);
+            console.error("Translation error:", err);
             translatedEl.textContent = "Translation failed.";
             statusEl.textContent = "Translation error";
+            playTTSBtn.disabled = true;
           }
-        } else {
-          statusEl.textContent = "No transcript to translate";
-        }
+        }, 3000);
       }
 
+      
       toggleBtn.addEventListener("click", () => {
         if (!running) {
           startRecording();
           toggleBtn.textContent = "Stop";
         } else {
-          stopRecording();
+          stopRecording().catch((err) => {
+            console.error("stopRecording error:", err);
+          });
           toggleBtn.textContent = "Start";
         }
       });
